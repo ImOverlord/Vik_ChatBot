@@ -1,0 +1,55 @@
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Author: ARNAUD (Martient) LEHERPEUR
+#  PROJECT: VIK
+
+from PIL import Image, ImageFont, ImageDraw
+import json
+import time
+import requests
+import os
+import sys
+
+url = "http://api.openweathermap.org/data/2.5/forecast?q=toulouse&mode=json&appid=d52a623a3455f971d98e26ca724d3d93"
+font = ImageFont.truetype("./python/arial.ttf", 16)
+
+def get_time():
+	return (time.time())
+
+def create_image(id, argv):
+	time_ = get_time() - 60 #In case scripts stats late
+	count = 0
+
+	#r = requests.post(url,stream=True)
+	file = open(argv, "r")
+	weather_parser = json.loads(file.read())
+	weather = weather_parser
+	today = Image.new("RGB", (300, 1 * 60))
+	today.paste( (255,255,255), [0,0,today.size[0],today.size[1]])
+	time_temp = weather['time']
+	time_text = time.strftime('%H:%M', time.localtime(time_temp - 60*60))
+	posx = 60
+	posy = count * 60
+	h_tempe = weather['h_temp']
+	h_tempe = "Max: " + str(h_tempe) + "\xb0C"
+	l_tempe = weather['l_temp']
+	l_tempe = "Min: " + str(l_tempe) + "\xb0C"
+	desc = weather['desc']
+	f = open( str(count) + '.png','wb')
+	f.write(requests.get(weather['img']).content)
+	f.close()
+	temp = Image.open(str(count) + '.png')
+	today.paste(temp, (posx, posy))
+	draw = ImageDraw.Draw(today)
+	draw.text((posx + 60, posy + 3), l_tempe, (0,0,0), font=font)
+	draw.text((posx + 60, posy + 25), h_tempe, (0,0,0), font=font)
+	draw.text((posx + 150, posy + 14), desc, (0,0,0), font=font)
+	draw.text((0, posy + (30-16)), weather['w_day'], (0,0,0), font=font)
+	count += 1
+	today.save('./public/' + id + '_weather_one' + '.png')
+	cleanup()
+
+def cleanup():
+	os.remove(str(0) + ".png")
+
+create_image(sys.argv[1], sys.argv[2])

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" href="Akrapovic/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <title>Settings</title>
+  </head>
+
+  <script>
+    let obj = {};
+  </script>
+
+  <body>
+    <div id="bloc_page">
+      <header>
+          <div id="titre_page">
+            <div id="logo">
+              <img src="Akrapovic/images/Logo_Test.png" alt="Logo des settings" />
+              <h1>Vik</h1>
+            </div>
+            <h2>Settings</h2><br />
+          </div>
+	  <script>
+		let settings_obj;
+		  window.onload = function() {
+			var user_id = document.getElementById("hidden_id").innerHTML;
+			$.getJSON( "https://f5add1ef.ngrok.io/vik_api_get", {
+				id: user_id
+			})
+			.done(function( data ) {
+				settings_obj = data;
+			});
+		  }
+	  </script>
+          <nav>
+            <ul>
+              <li><a href=#>Accueil</a></li>
+            </ul>
+	  </nav>
+        </header>
+
+      <section>
+	<span id="hidden_id" style="display: none"><%= user_id %></span>
+        <article class="texte">
+          <h3>Epitech Auto-login</h3>
+          <p>Veuillez cliquer sur le lien situé au dessus de la zone de saisie afin de générer un lien pour vous connecter automatiquement à notre service.</p>
+          <p>Vous devez ensuite copier le lien généré dans la zone de saisie, et cliquer sur <strong>"save"</strong>.</p>
+          <a href="https://intra.epitech.eu/admin/autolog">Générez votre lien d'auto-Login en cliquant ici.</a>
+        </article>
+
+        <article class="text_box">
+          <div class="Save">
+            <input type="button" onclick="save()" value="Save" href="#"/>
+          </div>
+
+          <input type="text" size="40" id="epitech_url">
+          <script>
+            function save() {
+		var user_id = document.getElementById("hidden_id").innerHTML;
+		var epitech = document.getElementById("epitech_url").value;
+		settings_obj.epitech_url = epitech;
+		$.getJSON( "https://f5add1ef.ngrok.io/vik_api", {
+				id: user_id,
+				data: JSON.stringify(settings_obj)
+			})
+			.done(function( data ) {
+					console.log(data);
+			}).fail(function(jqXHR) {
+				if (jqXHR.status == 304) {
+					return;
+				} else if (jqXHR.status == 404) {
+					alert("Error: Incorrect Settings value");
+				}
+			});
+		}
+             </script>
+            </article>
+      </section>
+
+      <footer>
+        <p>Copyright Vik - All rights reserved<br />
+        <a href="#">Nous contacter</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

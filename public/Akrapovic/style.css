@@ -1,0 +1,100 @@
+/* body */
+body
+{
+  background: url('images/fond_jaune.png');
+  font-family: normal;
+  color: #181818;
+}
+#bloc_page
+{
+  width: 900px;
+  margin: auto;
+}
+
+/* header */
+header
+{
+  background: url('images/separateur.png') repeat-x bottom;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#titre_page
+{
+  display: flex;
+  flex-direction: column;
+}
+#logo
+{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+#logo img
+{
+  width: 59px;
+  height: 60px;
+}
+header h1
+{
+  font-size: 1.1em;
+  margin-top: 0px;
+  font-weight: normal;
+}
+header h2
+{
+  font-size: 1.1em;
+  margin-top: 0px;
+  font-weight: normal;
+}
+
+/* nav */
+nav ul
+{
+  list-style-type: none;
+  display: flex;
+}
+nav li
+{
+  margin-right: 15px;
+}
+nav a
+{
+  font-size: 1.3em;
+  color: #181818;
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+nav a:hover
+{
+  color: #760001;
+  border-bottom: 3px solid #760001;
+}
+
+/* body2 */
+section
+{
+  display: flex;
+  margin-bottom: 20px;
+}
+article
+{
+  text-align: justify;
+  margin-right: 20px;
+}
+article p
+{
+  font-size: 0.8em;
+}
+
+/* footer */
+footer
+{
+  display: flex;
+  background: url('images/separateur.png') repeat-x top, url('images/ombres.png') repeat-x top;
+  padding-top: 25px;
+}
+footer p
+{
+  font-size: 0.8em;
+}

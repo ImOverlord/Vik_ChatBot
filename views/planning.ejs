@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" href="Akrapovic/style1.css" />
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen"
+     href="https://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <title>Planning</title>
+  </head>
+
+  <script>
+    let settings_obj;
+  </script>
+
+  <body>
+	<span id="hidden_id" style="display: none"><%= user_id %></span>
+    <div id="bloc_page">
+      <header>
+        <div id="titre_page">
+          <div id="logo">
+            <img src="Akrapovic/images/Logo_Test.png" alt="Logo du Projet" />
+            <h1>Vik</h1>
+          </div>
+          <h2>Calendar</h2><br />
+        </div>
+      </header>
+
+      <section>
+        <span id="hidden_id" style="display: none"><%= user_id%></span>
+        <article class="Text_box_1">
+          <p>Nom de l'événement</p>
+          <div class="Event">
+            <input type="text" size="40" id="title">
+          </div>
+          <div class="Date">
+            <p>Date de début</p>
+              <div id="datetimepicker2" class="input-append dat">
+                <input type="text" size="40" id="start"></input>
+                  <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                  </span>
+              </div>
+              <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+              </script>
+              <script type="text/javascript"
+                src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+              </script>
+              <script type="text/javascript"
+                src="https://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+              </script>
+              <script type="text/javascript"
+                src="https://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+              </script>
+              <script type="text/javascript">
+                $('#datetimepicker2').datetimepicker({
+                  format: 'dd/MM/yyyy hh:mm:ss',
+                  language: 'fr'
+                });
+                </script>
+            <p>Date de fin</p>
+            <div id="datetimepicker" class="input-append date">
+              <input type="text" size="40" id="end"></input>
+                <span class="add-on">
+                  <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
+            </div>
+            <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+            </script>
+            <script type="text/javascript"
+             src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+            </script>
+            <script type="text/javascript"
+             src="https://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+            </script>
+            <script type="text/javascript"
+             src="https://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+            </script>
+            <script type="text/javascript">
+              $('#datetimepicker').datetimepicker({
+                format: 'dd/MM/yyyy hh:mm:ss',
+                language: 'fr'
+              });
+            </script>
+          </div>
+          <div class="Place">
+            <p>Lieu de cet événement</p>
+            <input type="text" size="40" id="location">
+          </div>
+          <div class="Details">
+            <p>Details de cet événement</p>
+            <input type="text" size="40" id="detail">
+          </div>
+          <div class="Save">
+            <p>sauvegardez l'évenement en cliquant sur le bouton <strong>"save"</strong></p>
+            <input type="button" onclick="save()" value="Save" href="#"/>
+          </div>
+
+          <script>
+          function save() {
+            var user_id = document.getElementById("hidden_id").innerHTML;
+	          var evt = document.getElementById("title").value;
+	          var settings_obj = {};
+            settings_obj.title = evt;
+            var strt = document.getElementById("start").value;
+            settings_obj.start = strt;
+            var nd = document.getElementById("end").value;
+            settings_obj.end = nd;
+            var plc = document.getElementById("location").value;
+            settings_obj.location = plc;
+            var dts = document.getElementById("detail").value;
+            settings_obj.detail = dts;
+		        $.getJSON( "https://f5add1ef.ngrok.io/vik_api_planner", {
+			      id: user_id,
+			      data: JSON.stringify(settings_obj)
+		})
+		.done(function( data ) {
+				console.log(data);
+		}).fail(function(jqXHR) {
+			if (jqXHR.status == 404) {
+				alert("Error: Incorrect Settings value");
+			} else {
+				alert("Server Error try again later");
+		}
+	});
+            }
+            </script>
+        </article>
+      </section>
+
+      <footer>
+        <p>Copyright Vik - Tout droits réservés<br />
+        <a href="#">Nous contacter</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

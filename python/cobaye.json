@@ -1,0 +1,17 @@
+[{
+	"activity1": {
+		"start": "9 PM",
+		"title": "cours1",
+		"location": "601"
+	},
+	"activity2": {
+		"start": "11 PM",
+		"title": "cours2",
+		"location": "702"
+	},
+	"activity3": {
+		"start": "3 PM",
+		"title": "cours3",
+		"location": "705"
+	}
+}]
